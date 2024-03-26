@@ -1,0 +1,59 @@
+#title-screen {
+  display: flex;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  transition-property: visibility, opacity;
+  transition-duration: 1s;
+}
+
+#title-screen.fade {
+  visibility: hidden;
+  opacity: 0;
+}
+
+#title-screen > * {
+  text-transform: uppercase;
+  color: var(--text-color);
+  letter-spacing: 0.375ch;
+  font-family: var(--monospace);
+  user-select: none;
+}
+
+#game-title {
+  font-size: 4rem;
+  padding: 0;
+  animation: 
+    fade-in 2s,
+    title-fade-in-glow 1s 2s infinite alternate;
+}
+
+#game-title.hidden { display: none; }
+
+#start-notice {
+  opacity: 0;
+  white-space: nowrap;
+  animation: fade-in 2s 2s forwards;
+  transition: letter-spacing 1s;
+}
+
+#start-notice.fade {
+  letter-spacing: 1vw;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes title-fade-in-glow {
+  from {
+    text-shadow: initial;
+  }
+  to {
+    text-shadow: 0 0 12px var(--text-color);
+  }
+}

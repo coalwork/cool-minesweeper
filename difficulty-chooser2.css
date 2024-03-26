@@ -1,0 +1,82 @@
+#difficulty-chooser {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-transform: uppercase;
+  visibility: hidden;
+  opacity: 0;
+  user-select: none;
+  
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: 1rem;
+  column-gap: 1rem;
+
+  transition-property: opacity, visibility;
+  transition-duration: 1s;
+  transition-delay: 0;
+}
+
+#difficulty-chooser.visible:not(.chosen) {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 1s;
+}
+
+#difficulty-chooser.chosen {
+  transition-delay: 1s
+  animation: difficulty-chooser-fade 1s 1s forwards;
+}
+
+#difficulty-chooser > button {
+  text-transform: inherit;
+  letter-spacing: inherit;
+  background-color: #0000;
+  font-size: 2rem;
+  font-weight: bold;
+  padding: 0.25em 0.5em;
+  border: 2px solid var(--color);
+  color: var(--color);
+  transition: box-shadow 0.25s;
+}
+
+#difficulty-chooser > button:hover {
+  cursor: pointer;
+  box-shadow: 0 0 18px var(--color);
+}
+
+#chooser-prompt {
+  justify-self: center;
+  grid-column: 1 / 4;
+  margin: 0;
+}
+
+#easy {
+  grid-row-start: 2;
+   --color: var(--easy); 
+}
+#normal {
+  grid-row-start: 2;
+  --color: var(--normal);
+}
+#hard {
+  grid-row-start: 2;
+  --color: var(--hard);
+}
+#custom {
+  grid-row-start: 3;
+  grid-column-start: 2;
+  --color: var(--custom);
+}
+
+@keyframes difficulty-chooser-fade {
+  from {
+    visibility: visible;
+    opacity: 1;
+  }
+  to {
+    visibility: hidden;
+    opacity: 0;
+  }
+}

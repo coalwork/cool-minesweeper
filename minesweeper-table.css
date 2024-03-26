@@ -1,0 +1,157 @@
+#minesweeper-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--column-count), 1fr);
+  grid-auto-rows: 1fr;
+  grid-gap: var(--border-size);
+
+  width: calc(var(--unit) * var(--column-count));
+  height: calc(var(--unit) * var(--row-count));
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  animation: fade-in 2s 1s both;
+  font-family: var(--monospace);
+  overflow: hidden;
+
+  --unit: max(min(calc(80vw / var(--column-count)), calc(80vh / var(--row-count))), 2rem);
+  --border-size: 2px;
+  --mine-color: var(--table-bg-color);
+}
+
+#minesweeper-grid.cleared {
+  animation: fade-out 2s 2s forwards;
+}
+
+#minesweeper-grid.game-over::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: 999;
+}
+
+#minesweeper-grid td {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  container-type: inline-size;
+  
+  background-color: var(--table-bg-color);
+  box-shadow: 0 0 0 var(--border-size) var(--border-color);
+
+  transition-property: background-color, opacity;
+  transition-duration: 0.125s;
+}
+
+#minesweeper-grid td:not(.revealed):hover {
+  cursor: pointer;
+  opacity: 0.875;
+}
+
+#minesweeper-grid td::after {
+  transition: color 0.125s;
+}
+
+#minesweeper-grid td.revealed {
+  background-color: var(--revealed);
+}
+
+#minesweeper-grid td.revealed.mine {
+  background-color: var(--table-bg-color);
+}
+
+#minesweeper-grid td.revealed::after {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  content: attr(data-char);
+  color: var(--text-color);
+  font-size: 64cqi;
+}
+
+#minesweeper-grid td.revealed.mine::after {
+  color: var(--revealed);
+}
+
+#minesweeper-grid.game-over td {
+  opacity: 0;
+  transition-property: opacity;
+  transition-duration: 1s;
+  transition-delay: calc(2s + 1s * var(--explosion-proximity) / var(--greatest-distance));
+}
+
+#minesweeper-grid.game-over td.revealed.mine {
+  transition: opacity 0.125s;
+  animation: fade-in 1s 1s reverse both;
+}
+
+.flag-icon {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  
+  height: 64cqi;
+  color: var(--revealed);
+  opacity: 0;
+  filter: blur(4rem);
+
+  transition-property: opacity, filter;
+  transition-duration: 0.125s;
+}
+
+td.flagged .flag-icon {
+  opacity: 1;
+  filter: blur(0);
+}
+
+.mine-icon {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  
+  height: 64cqi;
+  color: var(--revealed);
+  opacity: 0;
+  filter: blur(4rem);
+
+  transition-property: opacity, filter;
+  transition-duration: 1s;
+}
+
+td.mine.revealed .mine-icon {
+  opacity: 1;
+  filter: blur(0);
+}
+
+@keyframes fade-in {
+  from {
+    visibility: hidden;
+    opacity: 0;
+  }
+  to {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    visibility: visible;
+    opacity: 1;
+  }
+  to {
+    visibility: hidden;
+    opacity: 0;
+  }
+}

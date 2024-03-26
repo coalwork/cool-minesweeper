@@ -1,0 +1,116 @@
+#custom-picker-panel {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+
+  background-color: var(--bg-color-translucent);
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5em;
+
+  text-transform: uppercase;
+  opacity: 0;
+  visibility: hidden;
+
+  transition-property: opacity, visibility;
+  transition-duration: 1s;
+}
+
+#custom-picker-panel.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+#custom-picker-panel.visible > * {
+  animation: drop-in 1s;
+}
+
+#custom-picker-panel * {
+  font-family: inherit;
+}
+
+#custom-picker-panel > * {
+  width: 50ch;
+  border: none;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+#custom-picker-panel input {
+  background-color: inherit;
+  color: inherit;
+  border: none;
+  border-bottom: 2px solid var(--text-color);
+  padding: 0.5em;
+  text-align: center;
+}
+
+#custom-picker-panel span:has(input) {
+  position: relative;
+}
+
+#custom-picker-panel span:has(input)::after {
+  position: absolute;
+  bottom: -1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.5rem;
+  letter-spacing: 0.5ch;
+}
+
+#custom-picker-panel span:has([name="row-count"])::after { content: 'rows'; }
+#custom-picker-panel span:has([name='column-count'])::after { content: 'columns'; }
+
+#custom-picker-panel #mine-density-input::after {
+  content: '%';
+}
+
+#custom-picker-panel button {
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  text-align: center;
+  background-color: #0000;
+  color: inherit;
+
+  cursor: pointer;
+  width: min-content;
+  padding: 0;
+}
+
+#custom-picker-panel #button-text {
+  padding: 0.5em 1em;
+  position: relative;
+}
+
+#custom-picker-panel #button-text::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: var(--text-color);
+  transition: width 0.125s, left 0.125s;
+}
+
+#custom-picker-panel #button-text:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+@keyframes drop-in {
+  from {
+    transform: translateY(-1rem);
+  }
+  to {
+    transform: none;
+  }
+}
